@@ -1,7 +1,9 @@
 import { ChangeEvent, Component } from 'react';
 import styles from './SearchSection.module.scss';
 
-interface SearchSectionProps {}
+interface SearchSectionProps {
+  getPokemonData: (pokemonName: string) => void;
+}
 
 interface SearchSectionState {
   searchQuery: string;
@@ -17,10 +19,11 @@ class SearchSection extends Component<SearchSectionProps, SearchSectionState> {
 
   handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    this.setState({ ...this.state, searchQuery: value });
+    this.setState({ ...this.state, searchQuery: value.trim() });
   };
 
   handleSearchButtonClick = () => {
+    this.props.getPokemonData(this.state.searchQuery);
     this.setState({ ...this.state, searchQuery: '' });
   };
 
