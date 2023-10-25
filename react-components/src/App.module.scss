@@ -2,8 +2,16 @@
   min-height: 100vh;
   padding: 30px 0px;
 
+  background-color: #f8f8f8;
+
   &__body {
     display: flex;
     flex-direction: column;
+  }
+
+  &__title {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
   }
 }
