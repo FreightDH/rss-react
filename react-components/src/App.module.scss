@@ -1,0 +1,9 @@
+.page {
+  min-height: 100vh;
+  padding: 30px 0px;
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+  }
+}
