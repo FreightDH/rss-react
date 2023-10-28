@@ -21,6 +21,10 @@
         transition: all 0.2s ease 0s;
       }
     }
+
+    @media (max-width: 479.98px) {
+      font-size: 14px;
+    }
   }
 
   &__btn {
@@ -32,6 +36,10 @@
 
     &:hover {
       background-color: #ced4da;
+    }
+
+    @media (max-width: 479.98px) {
+      font-size: 14px;
     }
   }
 }
