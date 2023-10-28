@@ -8,7 +8,7 @@ type Data = {
   next: string | null;
   prev: string | null;
   results: Array<Record<string, string>>;
-} | null;
+};
 
 type PokemonData = {
   id: number;
@@ -25,4 +25,4 @@ type PokemonData = {
     other: { dream_world: { front_default: string } };
   };
   types: [{ type: { name: string } }];
-} | null;
+};

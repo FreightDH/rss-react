@@ -7,40 +7,39 @@ import styles from './App.module.scss';
 
 const URL = 'https://pokeapi.co/api/v2/pokemon/';
 
-interface AppProps {}
 interface AppState {
-  data: Data;
+  data: Data | null;
+  pokemonDataURL: string;
   isLoading: boolean;
 }
 
-class App extends Component<AppProps, AppState> {
-  constructor(props: AppProps) {
+class App extends Component<{}, AppState> {
+  constructor(props = {}) {
     super(props);
 
     this.state = {
       data: null,
+      pokemonDataURL: '',
       isLoading: true,
     };
   }
 
   componentDidMount() {
+    this.setState({ ...this.state, isLoading: true });
+
     fetch(URL)
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ data: data, isLoading: false });
+        this.setState({ ...this.state, data: data, isLoading: false });
       })
       .catch((error) => console.error(error));
   }
 
-  getPokemonData = (pokemonName: string) => {
-    const finalURL = URL + pokemonName;
-
-    fetch(finalURL)
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({ ...this.state, data: data });
-      })
-      .catch((error) => console.error(error));
+  setPokemonDataURL = (pokemonName: string) => {
+    if (pokemonName) {
+      const requestURL = URL + pokemonName;
+      this.setState({ ...this.state, pokemonDataURL: requestURL });
+    }
   };
 
   render() {
@@ -49,10 +48,14 @@ class App extends Component<AppProps, AppState> {
         <main className={styles.page}>
           <div className="page__container">
             <div className={styles.page__body}>
-              <h1 className={styles.page__title}>Pokemon Card</h1>
-              <SearchSection getPokemonData={this.getPokemonData} />
+              <h1 className={styles.page__title}>Pokemon Cards</h1>
+              <SearchSection setPokemonDataURL={this.setPokemonDataURL} />
               <div style={{ width: '100%', height: '1px', backgroundColor: '#000' }}></div>
-              {this.state.isLoading ? <p>Loading data...</p> : <ListSection data={this.state.data} />}
+              {this.state.isLoading ? (
+                <p>Loading data...</p>
+              ) : (
+                <ListSection data={this.state.data} pokemonDataURL={this.state.pokemonDataURL} />
+              )}
             </div>
           </div>
         </main>
