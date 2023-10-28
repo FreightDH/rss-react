@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, ReactNode } from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 
 import SearchSection from './components/SearchSection/SearchSection';
@@ -14,8 +14,8 @@ interface AppState {
   isLoading: boolean;
 }
 
-class App extends Component<{}, AppState> {
-  constructor(props = {}) {
+class App extends Component<null, AppState> {
+  constructor(props = null) {
     super(props);
 
     this.state = {
@@ -54,6 +54,14 @@ class App extends Component<{}, AppState> {
   };
 
   render() {
+    let cardsSectionBody: ReactNode;
+
+    if (this.state.isLoading) {
+      cardsSectionBody = <ThreeDots color="#353535" wrapperStyle={{ justifyContent: 'center' }} visible={true} />;
+    } else {
+      cardsSectionBody = <ListSection data={this.state.data} pokemonDataURL={this.state.pokemonDataURL} />;
+    }
+
     return (
       <>
         <main className={styles.page}>
@@ -62,18 +70,7 @@ class App extends Component<{}, AppState> {
               <h1 className={styles.page__title}>Pokemon Cards</h1>
               <SearchSection setPokemonDataURL={this.setPokemonDataURL} />
               <div className={styles.page__divider}></div>
-              {this.state.isLoading ? (
-                <ThreeDots
-                  width="80"
-                  height="80"
-                  radius="9"
-                  color="#353535"
-                  wrapperStyle={{ justifyContent: 'center' }}
-                  visible={true}
-                />
-              ) : (
-                <ListSection data={this.state.data} pokemonDataURL={this.state.pokemonDataURL} />
-              )}
+              {cardsSectionBody}
             </div>
           </div>
         </main>
