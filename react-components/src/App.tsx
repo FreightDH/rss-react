@@ -20,25 +20,35 @@ class App extends Component<{}, AppState> {
     this.state = {
       data: null,
       pokemonDataURL: '',
-      isLoading: true,
+      isLoading: false,
     };
   }
 
-  componentDidMount() {
-    this.setState({ ...this.state, isLoading: true });
+  componentDidMount = () => {
+    const lastSearch = localStorage.getItem('lastSearch');
 
+    if (lastSearch) {
+      this.setState({ ...this.state, pokemonDataURL: lastSearch });
+    } else {
+      this.getAllData();
+    }
+  };
+
+  getAllData = () => {
+    this.setState({ ...this.state, isLoading: true });
     fetch(URL)
       .then((res) => res.json())
       .then((data) => {
         this.setState({ ...this.state, data: data, isLoading: false });
       })
       .catch((error) => console.error(error));
-  }
+  };
 
   setPokemonDataURL = (pokemonName: string) => {
     if (pokemonName) {
       const requestURL = URL + pokemonName;
       this.setState({ ...this.state, pokemonDataURL: requestURL });
+      localStorage.setItem('lastSearch', requestURL);
     }
   };
 
