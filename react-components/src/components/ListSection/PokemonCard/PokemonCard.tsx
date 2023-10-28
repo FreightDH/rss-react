@@ -1,4 +1,5 @@
 import { Component, ReactNode } from 'react';
+import { RotatingLines } from 'react-loader-spinner';
 import cardsColors from './cardsColors';
 import styles from './PokemonCard.module.scss';
 
@@ -53,7 +54,9 @@ class PokemonCard extends Component<PokemonCardProps, PokemonCardState> {
     if (this.state.badRequest) {
       componentBody = <p>ERROR!</p>;
     } else if (this.state.isLoading) {
-      componentBody = <p>loading</p>;
+      componentBody = (
+        <RotatingLines width="40" strokeColor="#353535" strokeWidth="5" animationDuration="0.75" visible={true} />
+      );
     } else {
       componentBody = (
         <li

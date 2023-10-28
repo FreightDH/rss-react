@@ -1,6 +1,7 @@
 import { Component } from 'react';
+import { ThreeDots } from 'react-loader-spinner';
 
-import SearchSection from './components/InputSection/SearchSection';
+import SearchSection from './components/SearchSection/SearchSection';
 import ListSection from './components/ListSection/ListSection';
 
 import styles from './App.module.scss';
@@ -60,9 +61,16 @@ class App extends Component<{}, AppState> {
             <div className={styles.page__body}>
               <h1 className={styles.page__title}>Pokemon Cards</h1>
               <SearchSection setPokemonDataURL={this.setPokemonDataURL} />
-              <div style={{ width: '100%', height: '1px', backgroundColor: '#000' }}></div>
+              <div className={styles.page__divider}></div>
               {this.state.isLoading ? (
-                <p>Loading data...</p>
+                <ThreeDots
+                  width="80"
+                  height="80"
+                  radius="9"
+                  color="#353535"
+                  wrapperStyle={{ justifyContent: 'center' }}
+                  visible={true}
+                />
               ) : (
                 <ListSection data={this.state.data} pokemonDataURL={this.state.pokemonDataURL} />
               )}
