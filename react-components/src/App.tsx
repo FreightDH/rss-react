@@ -3,6 +3,7 @@ import { ThreeDots } from 'react-loader-spinner';
 
 import SearchSection from './components/SearchSection/SearchSection';
 import ListSection from './components/ListSection/ListSection';
+import Footer from './components/Footer/Footer';
 
 import styles from './App.module.scss';
 
@@ -74,6 +75,7 @@ class App extends Component<null, AppState> {
             </div>
           </div>
         </main>
+        <Footer />
       </>
     );
   }
