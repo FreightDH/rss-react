@@ -1,6 +1,8 @@
 import { Component, ReactNode } from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import ErrorButton from './components/ErrorButton/ErrorButton';
 import SearchSection from './components/SearchSection/SearchSection';
 import ListSection from './components/ListSection/ListSection';
 import Footer from './components/Footer/Footer';
@@ -9,14 +11,15 @@ import styles from './App.module.scss';
 
 const URL = 'https://pokeapi.co/api/v2/pokemon/';
 
+interface AppProps {}
 interface AppState {
   data: Data | null;
   pokemonDataURL: string;
   isLoading: boolean;
 }
 
-class App extends Component<null, AppState> {
-  constructor(props = null) {
+class App extends Component<AppProps, AppState> {
+  constructor(props: AppProps) {
     super(props);
 
     this.state = {
@@ -43,7 +46,9 @@ class App extends Component<null, AppState> {
       .then((data) => {
         this.setState({ ...this.state, data: data, isLoading: false });
       })
-      .catch((error) => console.error(error));
+      .catch(() => {
+        throw new Error("Pokemons data wasn't found! Try again later.");
+      });
   };
 
   setPokemonDataURL = (pokemonName: string) => {
@@ -64,19 +69,22 @@ class App extends Component<null, AppState> {
     }
 
     return (
-      <>
-        <main className={styles.page}>
-          <div className="page__container">
-            <div className={styles.page__body}>
-              <h1 className={styles.page__title}>Pokemon Cards</h1>
-              <SearchSection setPokemonDataURL={this.setPokemonDataURL} />
-              <div className={styles.page__divider}></div>
-              {cardsSectionBody}
+      <ErrorBoundary>
+        <>
+          <main className={styles.page}>
+            <ErrorButton />
+            <div className="page__container">
+              <div className={styles.page__body}>
+                <h1 className={styles.page__title}>Pokemon Cards</h1>
+                <SearchSection setPokemonDataURL={this.setPokemonDataURL} />
+                <div className={styles.page__divider}></div>
+                {cardsSectionBody}
+              </div>
             </div>
-          </div>
-        </main>
-        <Footer />
-      </>
+          </main>
+          <Footer />
+        </>
+      </ErrorBoundary>
     );
   }
 }
