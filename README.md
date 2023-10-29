@@ -5,7 +5,7 @@
 ### Tech stack:
 
 - React
-- Typescript
+- TypeScript
 - CSS Modules
 
 ### Deploy: [link](https://freightdh.github.io/react-components/)
