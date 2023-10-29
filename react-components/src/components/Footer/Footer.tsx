@@ -1,16 +1,11 @@
 import { Component } from 'react';
 import styles from './Footer.module.scss';
 
-interface FooterProps {}
-
-interface FooterState {}
-
-class Footer extends Component<FooterProps, FooterState> {
+class Footer extends Component {
   copyrightText: string;
 
-  constructor(props: FooterProps) {
+  constructor(props = {}) {
     super(props);
-    this.state = {};
     this.copyrightText = ' © 2023 All Rights Reserved | ';
   }
   render() {

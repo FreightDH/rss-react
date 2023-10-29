@@ -40,11 +40,10 @@ class PokemonCard extends Component<PokemonCardProps, PokemonCardState> {
       .then((res) => res.json())
       .then((data) => {
         this.setState({ pokemonData: data, isLoading: false, badRequest: false });
-        console.clear();
       })
-      .catch((error) => {
+      .catch(() => {
         this.setState({ ...this.state, badRequest: true });
-        console.error(error);
+        throw new Error("Bad request, pokemon name wasn't found!");
       });
   }
 
@@ -52,7 +51,7 @@ class PokemonCard extends Component<PokemonCardProps, PokemonCardState> {
     let componentBody: ReactNode;
 
     if (this.state.badRequest) {
-      componentBody = <p>ERROR!</p>;
+      componentBody = <p>{"Pokemon wasn't found! Please, enter the other name."}</p>;
     } else if (this.state.isLoading) {
       componentBody = (
         <RotatingLines width="40" strokeColor="#353535" strokeWidth="5" animationDuration="0.75" visible={true} />
