@@ -12,10 +12,16 @@ interface SearchSectionState {
 class SearchSection extends Component<SearchSectionProps, SearchSectionState> {
   constructor(props: SearchSectionProps) {
     super(props);
+
     this.state = {
       searchQuery: '',
     };
   }
+
+  componentDidMount = () => {
+    const initiInputValue = localStorage.getItem('lastSearch') || '';
+    this.setState({ ...this.state, searchQuery: initiInputValue });
+  };
 
   handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -24,7 +30,6 @@ class SearchSection extends Component<SearchSectionProps, SearchSectionState> {
 
   handleSearchButtonClick = () => {
     this.props.setPokemonDataURL(this.state.searchQuery);
-    this.setState({ ...this.state, searchQuery: '' });
   };
 
   render() {

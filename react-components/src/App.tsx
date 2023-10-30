@@ -31,11 +31,11 @@ class App extends Component<AppProps, AppState> {
 
   componentDidMount = () => {
     const lastSearch = localStorage.getItem('lastSearch');
+    this.getAllData();
 
     if (lastSearch) {
-      this.setState({ ...this.state, pokemonDataURL: lastSearch });
-    } else {
-      this.getAllData();
+      const requestURL = URL + lastSearch;
+      this.setState({ ...this.state, pokemonDataURL: requestURL });
     }
   };
 
@@ -55,8 +55,11 @@ class App extends Component<AppProps, AppState> {
     if (pokemonName) {
       const requestURL = URL + pokemonName;
       this.setState({ ...this.state, pokemonDataURL: requestURL });
-      localStorage.setItem('lastSearch', requestURL);
+    } else {
+      this.setState({ ...this.state, pokemonDataURL: '' });
     }
+
+    localStorage.setItem('lastSearch', pokemonName);
   };
 
   render() {
