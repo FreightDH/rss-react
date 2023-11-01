@@ -1,55 +1,43 @@
-import { ChangeEvent, Component } from 'react';
+import { ReactElement, ChangeEvent, useState, useEffect } from 'react';
 import styles from './SearchSection.module.scss';
 
 interface SearchSectionProps {
   setPokemonDataURL: (pokemonName: string) => void;
 }
 
-interface SearchSectionState {
-  searchQuery: string;
-}
+const SearchSection: React.FC<SearchSectionProps> = ({ setPokemonDataURL }): ReactElement => {
+  const [searchQuery, setSearchQuery] = useState('');
 
-class SearchSection extends Component<SearchSectionProps, SearchSectionState> {
-  constructor(props: SearchSectionProps) {
-    super(props);
+  useEffect(() => {
+    const initInputValue = localStorage.getItem('lastSearch') || '';
+    setSearchQuery(initInputValue);
+  }, []);
 
-    this.state = {
-      searchQuery: '',
-    };
-  }
-
-  componentDidMount = () => {
-    const initiInputValue = localStorage.getItem('lastSearch') || '';
-    this.setState({ ...this.state, searchQuery: initiInputValue });
-  };
-
-  handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    this.setState({ ...this.state, searchQuery: value.trim().toLowerCase() });
+    setSearchQuery(value.trim().toLowerCase());
   };
 
-  handleSearchButtonClick = () => {
-    this.props.setPokemonDataURL(this.state.searchQuery);
+  const handleSearchButtonClick = () => {
+    setPokemonDataURL(searchQuery);
   };
 
-  render() {
-    return (
-      <section className={styles.search}>
-        <div className={styles.search__body}>
-          <input
-            type="text"
-            placeholder="Enter pokemon..."
-            className={styles.search__input}
-            value={this.state.searchQuery}
-            onChange={(event) => this.handleInputChange(event)}
-          />
-          <button className={styles.search__btn} onClick={this.handleSearchButtonClick}>
-            Search
-          </button>
-        </div>
-      </section>
-    );
-  }
-}
+  return (
+    <section className={styles.search}>
+      <div className={styles.search__body}>
+        <input
+          type="text"
+          placeholder="Enter pokemon..."
+          className={styles.search__input}
+          value={searchQuery}
+          onChange={handleInputChange}
+        />
+        <button className={styles.search__btn} onClick={handleSearchButtonClick}>
+          Search
+        </button>
+      </div>
+    </section>
+  );
+};
 
 export default SearchSection;
