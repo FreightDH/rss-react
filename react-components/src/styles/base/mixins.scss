@@ -1,0 +1,9 @@
+@function toRem($px) {
+  $result: math.div($px, 16) + rem;
+  @return $result;
+}
+
+@function toEm($px, $current: 16) {
+  $result: math.div($px, $current) + em;
+  @return $result;
+}
