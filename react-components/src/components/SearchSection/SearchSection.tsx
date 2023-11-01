@@ -2,10 +2,10 @@ import { ReactElement, ChangeEvent, useState, useEffect } from 'react';
 import styles from './SearchSection.module.scss';
 
 interface SearchSectionProps {
-  setPokemonDataURL: (pokemonName: string) => void;
+  setPokemonURL: (pokemonName: string) => void;
 }
 
-const SearchSection: React.FC<SearchSectionProps> = ({ setPokemonDataURL }): ReactElement => {
+const SearchSection: React.FC<SearchSectionProps> = ({ setPokemonURL }): ReactElement => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ setPokemonDataURL }): Rea
   };
 
   const handleSearchButtonClick = () => {
-    setPokemonDataURL(searchQuery);
+    setPokemonURL(searchQuery);
   };
 
   return (

@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
@@ -11,85 +11,70 @@ import styles from './App.module.scss';
 
 const URL = 'https://pokeapi.co/api/v2/pokemon/';
 
-interface AppProps {}
-interface AppState {
-  data: Data | null;
-  pokemonDataURL: string;
-  isLoading: boolean;
-}
+const App = (): ReactElement => {
+  const [data, setData] = useState<Data | null>(null);
+  const [pokemonDataURL, setPokemonDataURL] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
-class App extends Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props);
-
-    this.state = {
-      data: null,
-      pokemonDataURL: '',
-      isLoading: false,
-    };
-  }
-
-  componentDidMount = () => {
-    const lastSearch = localStorage.getItem('lastSearch');
-    this.getAllData();
-
-    if (lastSearch) {
-      const requestURL = URL + lastSearch;
-      this.setState({ ...this.state, pokemonDataURL: requestURL });
+  const getAllData = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(URL);
+      const data = await res.json();
+      setData(data);
+      setLoading(false);
+    } catch (error) {
+      throw new Error("Pokemons data wasn't found! Try again later.");
     }
   };
 
-  getAllData = () => {
-    this.setState({ ...this.state, isLoading: true });
-    fetch(URL)
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({ ...this.state, data: data, isLoading: false });
-      })
-      .catch(() => {
-        throw new Error("Pokemons data wasn't found! Try again later.");
-      });
-  };
-
-  setPokemonDataURL = (pokemonName: string) => {
+  const setPokemonURL = (pokemonName: string) => {
     if (pokemonName) {
       const requestURL = URL + pokemonName;
-      this.setState({ ...this.state, pokemonDataURL: requestURL });
+      setPokemonDataURL(requestURL);
     } else {
-      this.setState({ ...this.state, pokemonDataURL: '' });
+      setPokemonDataURL('');
     }
 
     localStorage.setItem('lastSearch', pokemonName);
   };
 
-  render() {
-    let cardsSectionBody: ReactNode;
+  useEffect(() => {
+    const lastSearch = localStorage.getItem('lastSearch');
+    getAllData();
 
-    if (this.state.isLoading) {
-      cardsSectionBody = <ThreeDots color="#353535" wrapperStyle={{ justifyContent: 'center' }} visible={true} />;
-    } else {
-      cardsSectionBody = <ListSection data={this.state.data} pokemonDataURL={this.state.pokemonDataURL} />;
+    if (lastSearch) {
+      const requestURL = URL + lastSearch;
+      setPokemonDataURL(requestURL);
     }
+  }, []);
 
-    return (
-      <ErrorBoundary>
-        <>
-          <main className={styles.page}>
-            <ErrorButton />
-            <div className="page__container">
-              <div className={styles.page__body}>
-                <h1 className={styles.page__title}>Pokemon Cards</h1>
-                <SearchSection setPokemonDataURL={this.setPokemonDataURL} />
-                <div className={styles.page__divider}></div>
-                {cardsSectionBody}
-              </div>
-            </div>
-          </main>
-          <Footer />
-        </>
-      </ErrorBoundary>
-    );
+  let cardsSectionBody: ReactNode;
+
+  if (isLoading) {
+    cardsSectionBody = <ThreeDots color="#353535" wrapperStyle={{ justifyContent: 'center' }} visible={true} />;
+  } else {
+    cardsSectionBody = <ListSection data={data} pokemonDataURL={pokemonDataURL} />;
   }
-}
+
+  return (
+    <ErrorBoundary>
+      <>
+        <main className={styles.page}>
+          <ErrorButton />
+          <div className="page__container">
+            <div className={styles.page__body}>
+              <h1 className={styles.page__title}>Pokemon Cards</h1>
+              <SearchSection setPokemonURL={setPokemonURL} />
+              <div className={styles.page__divider}></div>
+              {cardsSectionBody}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </>
+    </ErrorBoundary>
+  );
+};
 
 export default App;
