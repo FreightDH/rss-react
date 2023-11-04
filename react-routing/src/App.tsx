@@ -1,11 +1,11 @@
 import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
-import ErrorButton from './components/ErrorButton/ErrorButton';
-import SearchSection from './components/SearchSection/SearchSection';
-import ListSection from './components/ListSection/ListSection';
-import Footer from './components/Footer/Footer';
+import { fetchAllData } from 'api/api';
+import ListSection from 'components/ListSection/ListSection';
+import ErrorButton from 'components/ErrorButton/ErrorButton';
+import SearchSection from 'components/SearchSection/SearchSection';
+import Footer from 'components/Footer/Footer';
 
 import styles from './App.module.scss';
 
@@ -17,15 +17,10 @@ const App = (): ReactElement => {
   const [isLoading, setLoading] = useState(false);
 
   const getAllData = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(URL);
-      const data = await res.json();
-      setData(data);
-      setLoading(false);
-    } catch (error) {
-      throw new Error("Pokemons data wasn't found! Try again later.");
-    }
+    setLoading(true);
+    const data = await fetchAllData();
+    setData(data);
+    setLoading(false);
   };
 
   const setPokemonURL = (pokemonName: string) => {
@@ -58,22 +53,20 @@ const App = (): ReactElement => {
   }
 
   return (
-    <ErrorBoundary>
-      <>
-        <main className={styles.page}>
-          <ErrorButton />
-          <div className="page__container">
-            <div className={styles.page__body}>
-              <h1 className={styles.page__title}>Pokemon Cards</h1>
-              <SearchSection setPokemonURL={setPokemonURL} />
-              <div className={styles.page__divider}></div>
-              {cardsSectionBody}
-            </div>
+    <>
+      <main className={styles.page}>
+        <ErrorButton />
+        <div className="page__container">
+          <div className={styles.page__body}>
+            <h1 className={styles.page__title}>Pokemon Cards</h1>
+            <SearchSection setPokemonURL={setPokemonURL} />
+            <div className={styles.page__divider}></div>
+            {cardsSectionBody}
           </div>
-        </main>
-        <Footer />
-      </>
-    </ErrorBoundary>
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 };
 

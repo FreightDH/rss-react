@@ -1,5 +1,6 @@
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
+import { fetchPokemonData } from 'api/api';
 import cardsColors from './cardsColors';
 import styles from './PokemonCard.module.scss';
 
@@ -11,22 +12,21 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ requestURL }): ReactElement =
   const [pokemonData, setPokemonData] = useState<PokemonData | null>(null);
   const [statuses, setStatuses] = useState({ isLoading: false, isBadRequest: false });
 
-  const fetchPokemonData = useCallback(async () => {
-    try {
+  const getPokemonData = useCallback(async () => {
+    setStatuses({ isBadRequest: false, isLoading: true });
+    const data = await fetchPokemonData(requestURL);
+
+    if (!data) {
       setStatuses({ isBadRequest: false, isLoading: true });
-      const res = await fetch(requestURL);
-      const data: PokemonData = await res.json();
-      setPokemonData(data);
-      setStatuses({ isBadRequest: false, isLoading: false });
-    } catch (error) {
-      setStatuses({ isLoading: false, isBadRequest: true });
-      throw new Error('Invalid pokemon name!');
     }
+
+    setPokemonData(data);
+    setStatuses({ isBadRequest: false, isLoading: false });
   }, [requestURL]);
 
   useEffect(() => {
-    fetchPokemonData();
-  }, [fetchPokemonData]);
+    getPokemonData();
+  }, [getPokemonData]);
 
   if (statuses.isLoading) {
     return <RotatingLines width="40" strokeColor="#353535" strokeWidth="5" animationDuration="0.75" visible={true} />;
