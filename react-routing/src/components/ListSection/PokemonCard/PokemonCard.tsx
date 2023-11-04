@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
 import { fetchPokemonData } from 'api/api';
 import cardsColors from './cardsColors';
@@ -8,7 +8,7 @@ interface PokemonCardProps {
   requestURL: string;
 }
 
-const PokemonCard: React.FC<PokemonCardProps> = ({ requestURL }): ReactElement => {
+const PokemonCard: FC<PokemonCardProps> = ({ requestURL }): ReactElement => {
   const [pokemonData, setPokemonData] = useState<PokemonData | null>(null);
   const [statuses, setStatuses] = useState({ isLoading: false, isBadRequest: false });
 

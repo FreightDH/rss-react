@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react';
+import { FC, ReactElement, ReactNode } from 'react';
 import PokemonCard from './PokemonCard/PokemonCard';
 import styles from './ListSection.module.scss';
 
@@ -7,7 +7,7 @@ interface ListSectionProps {
   pokemonDataURL: string;
 }
 
-const ListSection: React.FC<ListSectionProps> = ({ data, pokemonDataURL }): ReactElement => {
+const ListSection: FC<ListSectionProps> = ({ data, pokemonDataURL }): ReactElement => {
   let listBody: ReactNode | ReactNode[];
 
   if (pokemonDataURL) {

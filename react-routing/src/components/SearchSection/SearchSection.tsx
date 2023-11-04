@@ -1,11 +1,11 @@
-import { ReactElement, ChangeEvent, useState, useEffect } from 'react';
+import { ReactElement, ChangeEvent, useState, useEffect, FC } from 'react';
 import styles from './SearchSection.module.scss';
 
 interface SearchSectionProps {
   setPokemonURL: (pokemonName: string) => void;
 }
 
-const SearchSection: React.FC<SearchSectionProps> = ({ setPokemonURL }): ReactElement => {
+const SearchSection: FC<SearchSectionProps> = ({ setPokemonURL }): ReactElement => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
