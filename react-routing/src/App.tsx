@@ -2,12 +2,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import usePagination from 'hooks/usePagination';
 
-import ErrorBoundary from 'components/ErrorBoundary/ErrorBoundary';
-import ErrorButton from 'components/ErrorButton/ErrorButton';
-import SearchSection from 'components/SearchSection/SearchSection';
-import ListSection from 'components/ListSection/ListSection';
-import Pagination from 'components/Pagination/Pagination';
-import Footer from 'components/Footer/Footer';
+import { ErrorBoundary, ErrorButton, SearchSection, ControlsSection, ListSection, Footer } from 'components';
 
 import styles from './App.module.scss';
 
@@ -23,18 +18,18 @@ const App = (): ReactElement => {
   });
 
   const [pokemonURL, setPokemonURL] = useState('');
-  const [paginationDisabled, setPaginationDisabled] = useState(false);
+  const [controlsDisabled, setControlsDisabled] = useState(false);
   const [cardsPerPage, setCardsPerPage] = useState(20);
-  const results = usePagination(URL, pageNumber, cardsPerPage);
+  const data = usePagination(URL, pageNumber, cardsPerPage);
 
   const setRequestURL = (pokemonName: string) => {
     if (pokemonName) {
       const requestURL = URL + pokemonName;
       setPokemonURL(requestURL);
-      setPaginationDisabled(true);
+      setControlsDisabled(true);
     } else {
       setPokemonURL('');
-      setPaginationDisabled(false);
+      setControlsDisabled(false);
     }
 
     localStorage.setItem('lastSearch', pokemonName);
@@ -46,7 +41,7 @@ const App = (): ReactElement => {
     if (lastSearch) {
       const requestURL = URL + lastSearch;
       setPokemonURL(requestURL);
-      setPaginationDisabled(true);
+      setControlsDisabled(true);
     }
   }, []);
 
@@ -61,14 +56,15 @@ const App = (): ReactElement => {
             <h1 className={styles.page__title}>Pokemon Cards</h1>
             <SearchSection setRequestURL={setRequestURL} />
             <div className={styles.page__divider}></div>
-            <Pagination
-              paginationDisabled={paginationDisabled}
-              totalItems={results.count}
+            <ControlsSection
+              controlsDisabled={controlsDisabled}
+              totalItems={data.count}
               cardsPerPage={cardsPerPage}
               pageNumber={pageNumber}
+              setCardsPerPage={setCardsPerPage}
               setPageNumber={setPageNumber}
             />
-            <ListSection data={results} pokemonURL={pokemonURL} />
+            <ListSection data={data} pokemonURL={pokemonURL} />
           </div>
         </div>
       </main>
