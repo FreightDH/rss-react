@@ -28,7 +28,6 @@
     "baseUrl": "src",
     "paths": {
       "components/*": ["components/*"],
-      "api/*": ["api/*"],
       "styles/*": ["styles/*"],
       "hooks/*": ["hooks/*"]
     }
