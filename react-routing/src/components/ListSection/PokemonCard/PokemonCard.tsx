@@ -1,6 +1,5 @@
 import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
-import { fetchPokemonData } from 'api/api';
 import cardsColors from './cardsColors';
 import styles from './PokemonCard.module.scss';
 
@@ -14,13 +13,16 @@ const PokemonCard: FC<PokemonCardProps> = ({ requestURL }): ReactElement => {
 
   const getPokemonData = useCallback(async () => {
     setStatuses({ isBadRequest: false, isLoading: true });
-    const data = await fetchPokemonData(requestURL);
 
-    if (!data) {
-      setStatuses({ isBadRequest: false, isLoading: true });
+    try {
+      const res = await fetch(requestURL);
+      const data = await res.json();
+      setPokemonData(data);
+    } catch (error) {
+      setStatuses({ isBadRequest: true, isLoading: false });
+      throw new Error('Invalid pokemon name!');
     }
 
-    setPokemonData(data);
     setStatuses({ isBadRequest: false, isLoading: false });
   }, [requestURL]);
 
