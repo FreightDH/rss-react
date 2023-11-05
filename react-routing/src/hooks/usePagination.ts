@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const usePagination = (url: string, pageNumber: number) => {
+const usePagination = (url: string, pageNumber: number, cardsPerPage: number) => {
   const [data, setData] = useState({
     count: 0,
     next: '',
@@ -11,10 +11,10 @@ const usePagination = (url: string, pageNumber: number) => {
   useEffect(() => {
     const offset = pageNumber - 1;
 
-    fetch(`${url}?offset=${offset * 20}&limit=20`)
+    fetch(`${url}?offset=${offset * cardsPerPage}&limit=${cardsPerPage}`)
       .then((res) => res.json())
       .then((data) => setData(data));
-  }, [pageNumber, url]);
+  }, [cardsPerPage, pageNumber, url]);
 
   return data;
 };
