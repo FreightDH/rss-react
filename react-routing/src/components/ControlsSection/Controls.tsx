@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
-import NumberInput from 'components/NumberInput/NumberInput';
-import Pagination from 'components/Pagination/Pagination';
+import NumberInput from './NumberInput/NumberInput';
+import Pagination from './Pagination/Pagination';
 import styles from './Controls.module.scss';
 
 interface ControlsSectionProps {
