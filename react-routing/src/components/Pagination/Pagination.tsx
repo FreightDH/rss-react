@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import styles from './Pagination.module.scss';
 
 interface PaginationProps {
-  paginationDisabled: boolean;
   totalItems: number;
   cardsPerPage: number;
   pageNumber: number;
-  setPageNumber: (currentPage: number) => void;
+  setPageNumber: (page: number) => void;
 }
 
 const LEFT_ARROW = 'LEFT';
@@ -23,17 +22,7 @@ const range = (from: number, to: number, step: number = 1): string[] => {
   return result;
 };
 
-const Pagination: FC<PaginationProps> = ({
-  paginationDisabled,
-  totalItems,
-  cardsPerPage,
-  pageNumber,
-  setPageNumber,
-}): ReactElement => {
-  if (paginationDisabled) {
-    return <></>;
-  }
-
+const Pagination: FC<PaginationProps> = ({ totalItems, cardsPerPage, pageNumber, setPageNumber }): ReactElement => {
   const getPageNumbers = (totalPages: number, currentPage: number, pageNeighbours: number) => {
     const totalNumbers = pageNeighbours * 2 + 3;
     const totalButtons = totalNumbers + 2;
