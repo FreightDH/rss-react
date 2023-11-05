@@ -1,10 +1,12 @@
-import { ReactElement, ReactNode, useEffect, useState } from 'react';
-import { ThreeDots } from 'react-loader-spinner';
+import { ReactElement, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import usePagination from 'hooks/usePagination';
 
-import { fetchAllData } from 'api/api';
-import ListSection from 'components/ListSection/ListSection';
+import ErrorBoundary from 'components/ErrorBoundary/ErrorBoundary';
 import ErrorButton from 'components/ErrorButton/ErrorButton';
 import SearchSection from 'components/SearchSection/SearchSection';
+import ListSection from 'components/ListSection/ListSection';
+import Pagination from 'components/Pagination/Pagination';
 import Footer from 'components/Footer/Footer';
 
 import styles from './App.module.scss';
@@ -12,23 +14,27 @@ import styles from './App.module.scss';
 const URL = 'https://pokeapi.co/api/v2/pokemon/';
 
 const App = (): ReactElement => {
-  const [data, setData] = useState<Data | null>(null);
-  const [pokemonDataURL, setPokemonDataURL] = useState('');
-  const [isLoading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [pageNumber, setPageNumber] = useState<number>(() => {
+    const page = searchParams.get('page');
+    if (!page) return 1;
 
-  const getAllData = async () => {
-    setLoading(true);
-    const data = await fetchAllData();
-    setData(data);
-    setLoading(false);
-  };
+    return +page;
+  });
 
-  const setPokemonURL = (pokemonName: string) => {
+  const [pokemonURL, setPokemonURL] = useState('');
+  const [paginationDisabled, setPaginationDisabled] = useState(false);
+  const [cardsPerPage, setCardsPerPage] = useState(20);
+  const results = usePagination(URL, pageNumber, cardsPerPage);
+
+  const setRequestURL = (pokemonName: string) => {
     if (pokemonName) {
       const requestURL = URL + pokemonName;
-      setPokemonDataURL(requestURL);
+      setPokemonURL(requestURL);
+      setPaginationDisabled(true);
     } else {
-      setPokemonDataURL('');
+      setPokemonURL('');
+      setPaginationDisabled(false);
     }
 
     localStorage.setItem('lastSearch', pokemonName);
@@ -36,37 +42,38 @@ const App = (): ReactElement => {
 
   useEffect(() => {
     const lastSearch = localStorage.getItem('lastSearch');
-    getAllData();
 
     if (lastSearch) {
       const requestURL = URL + lastSearch;
-      setPokemonDataURL(requestURL);
+      setPokemonURL(requestURL);
+      setPaginationDisabled(true);
     }
   }, []);
 
-  let cardsSectionBody: ReactNode;
-
-  if (isLoading) {
-    cardsSectionBody = <ThreeDots color="#353535" wrapperStyle={{ justifyContent: 'center' }} visible={true} />;
-  } else {
-    cardsSectionBody = <ListSection data={data} pokemonDataURL={pokemonDataURL} />;
-  }
+  // <ThreeDots color="#353535" wrapperStyle={{ justifyContent: 'center' }} visible={true} />;
 
   return (
-    <>
+    <ErrorBoundary>
       <main className={styles.page}>
         <ErrorButton />
         <div className="page__container">
           <div className={styles.page__body}>
             <h1 className={styles.page__title}>Pokemon Cards</h1>
-            <SearchSection setPokemonURL={setPokemonURL} />
+            <SearchSection setRequestURL={setRequestURL} />
             <div className={styles.page__divider}></div>
-            {cardsSectionBody}
+            <Pagination
+              paginationDisabled={paginationDisabled}
+              totalItems={results.count}
+              cardsPerPage={cardsPerPage}
+              pageNumber={pageNumber}
+              setPageNumber={setPageNumber}
+            />
+            <ListSection data={results} pokemonURL={pokemonURL} />
           </div>
         </div>
       </main>
       <Footer />
-    </>
+    </ErrorBoundary>
   );
 };
 
