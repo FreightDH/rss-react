@@ -1,26 +1,28 @@
-import { ReactElement, ChangeEvent, useState, useEffect, FC } from 'react';
+import { ReactElement, ChangeEvent, KeyboardEvent, useState, useEffect, FC } from 'react';
 import styles from './SearchSection.module.scss';
 
 interface SearchSectionProps {
-  setPokemonURL: (pokemonName: string) => void;
+  setRequestURL: (pokemonName: string) => void;
 }
 
-const SearchSection: FC<SearchSectionProps> = ({ setPokemonURL }): ReactElement => {
+const SearchSection: FC<SearchSectionProps> = ({ setRequestURL }): ReactElement => {
   const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    const initInputValue = localStorage.getItem('lastSearch') || '';
-    setSearchQuery(initInputValue);
-  }, []);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchQuery(value.trim().toLowerCase());
   };
 
-  const handleSearchButtonClick = () => {
-    setPokemonURL(searchQuery);
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      setRequestURL(searchQuery);
+    }
   };
+
+  useEffect(() => {
+    const initInputValue = localStorage.getItem('lastSearch') || '';
+    setSearchQuery(initInputValue);
+  }, []);
 
   return (
     <section className={styles.search}>
@@ -31,8 +33,9 @@ const SearchSection: FC<SearchSectionProps> = ({ setPokemonURL }): ReactElement 
           className={styles.search__input}
           value={searchQuery}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
         />
-        <button className={styles.search__btn} onClick={handleSearchButtonClick}>
+        <button className={styles.search__btn} onClick={() => setRequestURL(searchQuery)}>
           Search
         </button>
       </div>
