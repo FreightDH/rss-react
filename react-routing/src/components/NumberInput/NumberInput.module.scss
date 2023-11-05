@@ -1,0 +1,71 @@
+.input {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  @media (max-width: 768px) {
+    flex: 0 0 200px;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 300;
+
+    @media (max-width: 480px) {
+      font-size: 11px;
+    }
+  }
+
+  &__control {
+    display: flex;
+    border-bottom: 1px solid #7a7a7a;
+    background-color: #f1f1f1;
+  }
+
+  &__input {
+    appearance: none;
+    margin: 0;
+    width: 100%;
+    height: 35px;
+    padding: 10px 5px;
+
+    font-size: 14px;
+    font-weight: 300;
+    background-color: #f1f1f1;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      height: 30px;
+      padding: 5px;
+      font-size: 13px;
+    }
+  }
+
+  &__btn {
+    flex: 0 0 40px;
+    height: 35px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    font-weight: 300;
+
+    &:hover {
+      transition: all 0.2s ease 0s;
+      background-color: #d9d9d9;
+    }
+
+    @media (max-width: 768px) {
+      height: 30px;
+      font-size: 14px;
+    }
+  }
+}
