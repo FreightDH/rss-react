@@ -6,15 +6,17 @@ import PokemonCard from 'components/ListSection/PokemonCard/PokemonCard';
 
 import cross from 'assets/cross.svg';
 import styles from './Details.module.scss';
+import useScrollBlock from 'hooks/useScrollBlock';
 
 const Details = (): ReactElement => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [blockScroll, allowScroll] = useScrollBlock();
   const pokemonName = searchParams.get('details');
 
   if (pokemonName) {
     const requestURL = API_URL + pokemonName;
-
+    blockScroll();
     return (
       <>
         <div className={styles.details}>
@@ -30,7 +32,7 @@ const Details = (): ReactElement => {
       </>
     );
   }
-
+  allowScroll();
   return <></>;
 };
 
