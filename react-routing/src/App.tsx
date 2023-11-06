@@ -1,12 +1,11 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import usePagination from 'hooks/usePagination';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
+import usePagination from 'hooks/usePagination';
+import { API_URL } from 'utils';
 import { ErrorBoundary, ErrorButton, SearchSection, ControlsSection, ListSection, Footer } from 'components';
 
 import styles from './App.module.scss';
-
-const URL = 'https://pokeapi.co/api/v2/pokemon/';
 
 const App = (): ReactElement => {
   const [searchParams] = useSearchParams();
@@ -17,18 +16,17 @@ const App = (): ReactElement => {
     return +page;
   });
 
-  const [pokemonURL, setPokemonURL] = useState('');
+  const [pokemonName, setPokemonName] = useState('');
   const [controlsDisabled, setControlsDisabled] = useState(false);
-  const [cardsPerPage, setCardsPerPage] = useState(20);
-  const data = usePagination(URL, pageNumber, cardsPerPage);
+  const [cardsPerPage, setCardsPerPage] = useState(9);
+  const data = usePagination(API_URL, pageNumber, cardsPerPage);
 
   const setRequestURL = (pokemonName: string) => {
     if (pokemonName) {
-      const requestURL = URL + pokemonName;
-      setPokemonURL(requestURL);
+      setPokemonName(pokemonName);
       setControlsDisabled(true);
     } else {
-      setPokemonURL('');
+      setPokemonName('');
       setControlsDisabled(false);
     }
 
@@ -36,24 +34,21 @@ const App = (): ReactElement => {
   };
 
   useEffect(() => {
-    const lastSearch = localStorage.getItem('lastSearch');
+    const pokemonName = localStorage.getItem('lastSearch');
 
-    if (lastSearch) {
-      const requestURL = URL + lastSearch;
-      setPokemonURL(requestURL);
+    if (pokemonName) {
+      setPokemonName(pokemonName);
       setControlsDisabled(true);
     }
   }, []);
-
-  // <ThreeDots color="#353535" wrapperStyle={{ justifyContent: 'center' }} visible={true} />;
 
   return (
     <ErrorBoundary>
       <main className={styles.page}>
         <ErrorButton />
         <div className="page__container">
+          <h1 className={styles.page__title}>Pokemon Cards</h1>
           <div className={styles.page__body}>
-            <h1 className={styles.page__title}>Pokemon Cards</h1>
             <SearchSection setRequestURL={setRequestURL} />
             <div className={styles.page__divider}></div>
             <ControlsSection
@@ -64,8 +59,9 @@ const App = (): ReactElement => {
               setCardsPerPage={setCardsPerPage}
               setPageNumber={setPageNumber}
             />
-            <ListSection data={data} pokemonURL={pokemonURL} />
+            <ListSection data={data} pokemonName={pokemonName} />
           </div>
+          <Outlet />
         </div>
       </main>
       <Footer />

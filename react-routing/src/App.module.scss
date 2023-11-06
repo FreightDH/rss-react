@@ -4,11 +4,6 @@
 
   background-color: #f8f8f8;
 
-  &__body {
-    display: flex;
-    flex-direction: column;
-  }
-
   &__title {
     font-size: 32px;
     font-weight: 700;
@@ -22,6 +17,12 @@
       padding: 10px 0px 0px 0px;
       font-size: 24px;
     }
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
   }
 
   &__divider {
