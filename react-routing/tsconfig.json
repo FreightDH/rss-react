@@ -29,7 +29,8 @@
     "paths": {
       "components/*": ["components/*"],
       "styles/*": ["styles/*"],
-      "hooks/*": ["hooks/*"]
+      "hooks/*": ["hooks/*"],
+      "utils/*": ["utils/*"]
     }
   },
   "include": ["src"],
