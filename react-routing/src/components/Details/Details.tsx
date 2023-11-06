@@ -2,11 +2,11 @@ import { ReactElement } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { API_URL } from 'shared';
+import useScrollBlock from 'hooks/useScrollBlock';
 import PokemonCard from 'components/ListSection/PokemonCard/PokemonCard';
 
 import cross from 'assets/cross.svg';
 import styles from './Details.module.scss';
-import useScrollBlock from 'hooks/useScrollBlock';
 
 const Details = (): ReactElement => {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ const Details = (): ReactElement => {
   if (pokemonName) {
     const requestURL = API_URL + pokemonName;
     blockScroll();
+
     return (
       <>
         <div className={styles.details}>
@@ -32,6 +33,7 @@ const Details = (): ReactElement => {
       </>
     );
   }
+
   allowScroll();
   return <></>;
 };

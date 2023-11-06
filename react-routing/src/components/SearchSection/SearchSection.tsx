@@ -8,7 +8,7 @@ interface SearchSectionProps {
 const SearchSection: FC<SearchSectionProps> = ({ setRequestURL }): ReactElement => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchQuery(value.trim().toLowerCase());
   };
@@ -32,7 +32,7 @@ const SearchSection: FC<SearchSectionProps> = ({ setRequestURL }): ReactElement 
           placeholder="Enter pokemon..."
           className={styles.search__input}
           value={searchQuery}
-          onChange={handleInputChange}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
         />
         <button className={styles.search__btn} onClick={() => setRequestURL(searchQuery)}>

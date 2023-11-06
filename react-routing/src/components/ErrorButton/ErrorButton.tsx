@@ -4,7 +4,7 @@ import styles from './ErrorButton.module.scss';
 const ErrorButton = (): ReactElement => {
   const [hasError, setErrorState] = useState(false);
 
-  const handleErrorButtonClick = () => {
+  const handleClick = () => {
     setErrorState(true);
   };
 
@@ -13,7 +13,7 @@ const ErrorButton = (): ReactElement => {
   }
 
   return (
-    <button className={styles.button} onClick={handleErrorButtonClick}>
+    <button className={styles.button} onClick={handleClick}>
       Throw an error
     </button>
   );
