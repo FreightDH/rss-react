@@ -30,7 +30,7 @@
       "components/*": ["components/*"],
       "styles/*": ["styles/*"],
       "hooks/*": ["hooks/*"],
-      "utils/*": ["utils/*"],
+      "shared/*": ["shared/*"],
       "assets/*": ["assets/*"]
     }
   },

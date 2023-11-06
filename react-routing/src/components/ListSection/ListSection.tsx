@@ -2,7 +2,7 @@ import { CSSProperties, FC, ReactElement, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
 import useParamsObject from 'hooks/useParamsObject';
-import { API_URL, getSearchPath } from 'utils';
+import { API_URL, getSearchPath } from 'shared';
 
 import PokemonCard from './PokemonCard/PokemonCard';
 import styles from './ListSection.module.scss';

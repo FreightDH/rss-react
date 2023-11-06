@@ -2,7 +2,7 @@ import { FC, MouseEvent, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
 import useParamsObject from 'hooks/useParamsObject';
-import { getArrayFromRange, getSearchPath } from 'utils';
+import { getArrayFromRange, getSearchPath } from 'shared';
 
 import styles from './Pagination.module.scss';
 

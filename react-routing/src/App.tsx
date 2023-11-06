@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 
 import usePagination from 'hooks/usePagination';
-import { API_URL } from 'utils';
+import { API_URL } from 'shared';
 import { ErrorBoundary, ErrorButton, SearchSection, ControlsSection, ListSection, Footer } from 'components';
 
 import styles from './App.module.scss';

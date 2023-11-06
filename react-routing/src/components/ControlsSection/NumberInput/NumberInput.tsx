@@ -2,7 +2,7 @@ import { FC, ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useParamsObject from 'hooks/useParamsObject';
-import { getSearchPath } from 'utils';
+import { getSearchPath } from 'shared';
 
 import styles from './NumberInput.module.scss';
 

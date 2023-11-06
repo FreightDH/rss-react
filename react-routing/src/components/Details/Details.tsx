@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { API_URL } from 'utils';
+import { API_URL } from 'shared';
 import PokemonCard from 'components/ListSection/PokemonCard/PokemonCard';
 
 import cross from 'assets/cross.svg';
