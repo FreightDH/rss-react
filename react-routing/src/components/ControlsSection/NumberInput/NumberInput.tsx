@@ -1,9 +1,6 @@
 import { FC, ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import useParamsObject from 'hooks/useParamsObject';
-import { getSearchPath } from 'shared';
-
 import styles from './NumberInput.module.scss';
 
 interface NumberInputProps {
@@ -20,15 +17,12 @@ const NumberInput: FC<NumberInputProps> = ({
   totalItems,
 }): ReactElement => {
   const navigate = useNavigate();
-  const searchQueries = useParamsObject();
-  searchQueries['page'] = '1';
-  const path = getSearchPath(searchQueries);
 
   const handleDecrementClick = () => {
     if (cardsPerPage > 1) {
       setCardsPerPage(cardsPerPage - 1);
       setPageNumber(1);
-      navigate(`?${path}`);
+      navigate('/');
     }
   };
 
@@ -36,7 +30,7 @@ const NumberInput: FC<NumberInputProps> = ({
     if (cardsPerPage < totalItems) {
       setCardsPerPage(cardsPerPage + 1);
       setPageNumber(1);
-      navigate(`?${path}`);
+      navigate('/');
     }
   };
 
