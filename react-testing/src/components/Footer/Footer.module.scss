@@ -1,0 +1,27 @@
+.footer {
+  padding: 15px 0;
+  background-color: #f8f8f8;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__copyright {
+    text-transform: capitalize;
+    text-align: center;
+
+    &:not(:last-child) {
+      margin: 0px 0px 5px 0px;
+    }
+
+    @media (max-width: 479.98px) {
+      font-size: 0.75rem;
+    }
+
+    a {
+      text-decoration: underline;
+      transition: all 0.2s ease 0s;
+    }
+  }
+}
