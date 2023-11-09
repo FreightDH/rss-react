@@ -1,22 +1,17 @@
-import { FC, MouseEvent, ReactElement } from 'react';
+import { MouseEvent, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
 import useParamsObject from 'hooks/useParamsObject';
 import { getArrayFromRange, getSearchPath } from 'shared';
 
 import styles from './Pagination.module.scss';
-
-interface PaginationProps {
-  totalItems: number;
-  cardsPerPage: number;
-  pageNumber: number;
-  setPageNumber: (page: number) => void;
-}
+import usePokemon from 'utils/contexts/usePokemon';
 
 const LEFT_ARROW = 'LEFT';
 const RIGHT_ARROW = 'RIGHT';
 
-const Pagination: FC<PaginationProps> = ({ totalItems, cardsPerPage, pageNumber, setPageNumber }): ReactElement => {
+const Pagination = (): ReactElement => {
+  const { totalItems, cardsPerPage, pageNumber, setPageNumber } = usePokemon();
   const searchQueries = useParamsObject();
   const totalPages = Math.ceil(totalItems / cardsPerPage);
 

@@ -1,21 +1,11 @@
-import { FC, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import usePokemon from 'utils/contexts/usePokemon';
 import styles from './NumberInput.module.scss';
 
-interface NumberInputProps {
-  cardsPerPage: number;
-  setCardsPerPage: (count: number) => void;
-  setPageNumber: (page: number) => void;
-  totalItems: number;
-}
-
-const NumberInput: FC<NumberInputProps> = ({
-  cardsPerPage,
-  setCardsPerPage,
-  setPageNumber,
-  totalItems,
-}): ReactElement => {
+const NumberInput = (): ReactElement => {
+  const { cardsPerPage, setCardsPerPage, setPageNumber, totalItems } = usePokemon();
   const navigate = useNavigate();
 
   const handleDecrementClick = () => {

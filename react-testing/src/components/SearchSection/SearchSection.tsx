@@ -1,11 +1,9 @@
-import { ReactElement, ChangeEvent, KeyboardEvent, useState, useEffect, FC } from 'react';
+import { ReactElement, ChangeEvent, KeyboardEvent, useState, useEffect } from 'react';
+import usePokemon from 'utils/contexts/usePokemon';
 import styles from './SearchSection.module.scss';
 
-interface SearchSectionProps {
-  setRequestURL: (pokemonName: string) => void;
-}
-
-const SearchSection: FC<SearchSectionProps> = ({ setRequestURL }): ReactElement => {
+const SearchSection = (): ReactElement => {
+  const { setRequestURL } = usePokemon();
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

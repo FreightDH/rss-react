@@ -1,18 +1,15 @@
-import { CSSProperties, FC, ReactElement, ReactNode } from 'react';
+import { CSSProperties, ReactElement, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
+import usePokemon from 'utils/contexts/usePokemon';
 import useParamsObject from 'hooks/useParamsObject';
 import { API_URL, getSearchPath } from 'shared';
 
 import PokemonCard from './PokemonCard/PokemonCard';
 import styles from './ListSection.module.scss';
 
-interface ListSectionProps {
-  data: Data | null;
-  pokemonName: string;
-}
-
-const ListSection: FC<ListSectionProps> = ({ data, pokemonName }): ReactElement => {
+const ListSection = (): ReactElement => {
+  const { data, pokemonName } = usePokemon();
   let listBody: ReactNode | ReactNode[];
   let listPadding: CSSProperties = {};
 
