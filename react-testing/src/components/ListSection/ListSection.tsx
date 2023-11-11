@@ -10,7 +10,7 @@ import styles from './ListSection.module.scss';
 
 const ListSection = (): ReactElement => {
   const { data, pokemonName } = usePokemon();
-  let listBody: ReactNode | ReactNode[];
+  let listBody: ReactNode | ReactNode[] = <p>No data was found.</p>;
   let listPadding: CSSProperties = {};
 
   const searchQueries = useParamsObject();
@@ -28,7 +28,7 @@ const ListSection = (): ReactElement => {
       </li>
     );
     listPadding = { paddingTop: '20px' };
-  } else if (data) {
+  } else if (data.count) {
     listBody = data.results.map((item) => {
       searchQueries['details'] = item.name;
       const path = getSearchPath(searchQueries);

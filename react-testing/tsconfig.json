@@ -26,6 +26,7 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "src",
+    "types": ["vitest/globals"],
     "paths": {
       "components/*": ["components/*"],
       "styles/*": ["styles/*"],
