@@ -26,4 +26,5 @@ Tech stack:
 
 Deploy: [link](https://freightdh-react-routing.netlify.app/)
 
-![Screenshot11-05 at 21 02 22@2x](https://github.com/FreightDH/rss-react/assets/81368535/7e8c70e4-babc-4f63-923e-811635962149)
+![Screenshot11-21 at 22 42 34@2x](https://github.com/FreightDH/rss-react/assets/81368535/4ebc5297-0e0c-47d3-ae18-07dde8710f9b)
+
