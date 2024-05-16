@@ -35,7 +35,7 @@
     "sass": "^1.69.4",
     "typescript": "^5.0.2",
     "typescript-plugin-css-modules": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.5.3"
   },
   "lint-staged": {
     "**/*.{tsx,ts}": [
